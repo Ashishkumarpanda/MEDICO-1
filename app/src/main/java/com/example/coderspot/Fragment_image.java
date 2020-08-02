@@ -8,52 +8,89 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.coderspot.ui.main.Appointment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import static android.app.Activity.RESULT_OK;
 
 public class Fragment_image extends  Fragment{
-    private void openGallery() {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
-    Button btnload;
-    private static final int PICK_IMAGE = 100;
-    ImageView imgView;
-    Uri imageUri;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.images_layout,container,false);
-    }
+Button save,create;
+TextView name ,time;
+    private FirebaseAuth mAuth;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference fref = FirebaseDatabase.getInstance().getReference("user").child(user.getUid());
 
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view= inflater.inflate(R.layout.images_layout,container,false);
+     return view;
+    }
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        final Button btnload = view.findViewById(R.id.btnload);
-        final ImageView imgView = view.findViewById(R.id.imgView);
-        btnload.setOnClickListener(new View.OnClickListener() {
+        create=view.findViewById(R.id.btn_create);
+        save=view.findViewById(R.id.btn_chk);
+        name=view.findViewById(R.id.text);
+        time=view.findViewById(R.id.text2);
+
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGallery();
-                imgView.setVisibility(View.VISIBLE);
-                btnload.setVisibility(View.INVISIBLE);
+                Intent intent=new Intent(getActivity(), Appointment.class);
+                startActivity(intent);
+
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name.setVisibility(View.VISIBLE);
+                time.setVisibility(View.VISIBLE);
+                Calendar calendar=Calendar.getInstance();
+                SimpleDateFormat simpleDateFormat= new SimpleDateFormat("hh:mm:ss");
+                String dateTime = simpleDateFormat.format(calendar.getTime());
+                time.setText("Time:"+dateTime);
+
+
+                fref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String pet_name = snapshot.child("patientName").getValue(String.class);
+
+                        name.setText("Name of patient:"+pet_name);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final ImageView imgView = getView().findViewById(R.id.imgView);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-             imageUri = data.getData();
-            imgView.setImageURI(imageUri);
-        }
-    }
+
 }
