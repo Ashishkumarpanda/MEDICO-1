@@ -5,30 +5,42 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_chk"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_vertical"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="@string/check_appointment_details" />
 
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone"></ImageView>
-        <Button
-            android:id="@+id/btnload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:layout_margin="30dp"
-            android:background="@drawable/background1"
-            android:foregroundGravity="center"
-            android:gravity="center|clip_vertical"
-            android:text="GALLERY" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="@string/create_an_appointment" />
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:text="PATIENT NAME"
+        android:visibility="invisible"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="TIME"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:visibility="invisible"/>
 </LinearLayout>
