@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/ivlogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/logo1" />
 
         <RelativeLayout
             android:id="@+id/rellayout"
